@@ -81,7 +81,10 @@ void collectInputs(double& principal, double& rate, int& term)
 		if (cin.fail() || (rate < 1.0 || rate > 10.0))
 			cout << endl << endl << "ERROR: Please enter a valid decimal number between 1.0 and 10.0" << endl << endl;
 		else
+		{
+			rate = rate / 100; // convert to percentage
 			validRate = true;
+		}
 
 		clearInputStream();
 	}
@@ -108,9 +111,16 @@ void collectInputs(double& principal, double& rate, int& term)
 //calculate monthly payment
 double calcAMonthsPayment(double principal, double interest, int months)
 {
-	cout << "Months Payment Calculated" << endl << endl;
+	cout << endl << "monthly interest: " << interest << endl << endl;
+	double payment, innerCalc;
 
-	return 0.0;
+	innerCalc = pow((1 + interest), months);
+
+	payment = principal * ((interest * innerCalc) / (innerCalc - 1));
+
+	cout << "Monthly payment: " << payment << endl << endl;
+
+	return payment;
 }
 
 //Directly recursive function to display 
