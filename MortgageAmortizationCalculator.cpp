@@ -23,7 +23,7 @@ void clearInputStream();
 
 int main()
 {
-	cout << "Zachary Seeley -- Lab 1 - Recursion" << endl << endl;
+	cout << "Zachary Seeley -- Lab 1 - Recursion" << endl << endl << endl;
 
 	//variable declarations
 	double principal, rate, payment, balance, interest;
@@ -36,6 +36,9 @@ int main()
 	balance = principal;
 
 	payment = calcAMonthsPayment(principal, interest, months);
+
+	cout << "Zachary Seeley -- Lab 1 - Recursion" << endl << endl
+		<< "Loan Application Information and Amortization Schedule" << endl << endl << endl;
 
 	calcTheAmortizeSchedule(balance, interest, months, currentPeriod);
 
@@ -51,8 +54,7 @@ void collectInputs(double& principal, double& rate, int& term)
 {
 	bool validPrincipal = false;
 	bool validRate = false;
-
-	cout << "Loan Application Information and Amortization Schedule" << endl << endl << endl;
+	bool validTerm = false;
 
 	// prompt user for valid principal
 	// reprompt user for valid principal if invalid input
@@ -61,7 +63,7 @@ void collectInputs(double& principal, double& rate, int& term)
 		cout << left << setw(45) << "Principal (between 100000 & 250000):";
 		cin >> principal;
 
-		if (cin.fail() || principal < 100000 || principal > 250000)
+		if (cin.fail() || (principal < 100000 || principal > 250000))
 			cout << endl << endl << "ERROR: Please enter a valid numeric value between 100000 and 250000." << endl << endl;
 		else
 			validPrincipal = true;
@@ -76,7 +78,7 @@ void collectInputs(double& principal, double& rate, int& term)
 		cout << left << setw(45) << "Annual Interest Rate (between 1.0 & 10.0):";
 		cin >> rate;
 
-		if (cin.fail() || rate < 1.0 || rate > 10.0)
+		if (cin.fail() || (rate < 1.0 || rate > 10.0))
 			cout << endl << endl << "ERROR: Please enter a valid decimal number between 1.0 and 10.0" << endl << endl;
 		else
 			validRate = true;
@@ -84,9 +86,23 @@ void collectInputs(double& principal, double& rate, int& term)
 		clearInputStream();
 	}
 
-	
+	// prompt user vor valid loan term length
+	// reprompt user for valid interest rate if invalid input
+	while (validTerm != true)
+	{
+		cout << left << setw(45) << "Loan Term in Years (20, 25, 30, or 40):";
+		cin >> term;
 
-	cout << endl << "Inputs collected" << endl << endl;
+		if (cin.fail() || (term != 20 && term != 25 && term != 30 && term != 40))
+			cout << endl << endl << "ERROR: Please enter a valid term leng as 20, 25, 30, or 40." << endl << endl;
+		else
+			validTerm = true;
+
+		clearInputStream();
+	}
+	
+	system("pause");
+	system("cls");
 }
 
 //calculate monthly payment
@@ -100,7 +116,9 @@ double calcAMonthsPayment(double principal, double interest, int months)
 //Directly recursive function to display 
 void calcTheAmortizeSchedule(double balance, double interest, int months, int currentPeriod)
 {
+	
 
+	cout << "Amortization Schedule Displayed" << endl << endl;
 }
 
 //Clear input stream
