@@ -16,21 +16,26 @@ using namespace std;
 
 //function prototypes
 void collectInputs(double& principle, double& rate, int& term);
-double calcAMonthsPayment(double principle, double rate, int months);
+double calcAMonthsPayment(double principle, double interest, int months);
+void calcTheAmortizeSchedule(double balance, double interest, int months, int currentPeriod);
 
 int main()
 {
 	cout << "Zachary Seeley -- Lab 1 - Functions and Recursion Program Assignment" << endl << endl;
 
 	//variable declarations
-	double principle, rate, payment;
-	int term, months;
+	double principal, rate, payment, balance, interest;
+	int term, months, currentPeriod = 0;
 
-	collectInputs(principle, rate, term);
+	collectInputs(principal, rate, term);
 
 	months = term * 12;
+	interest = rate / 12;
+	balance = principal;
 
-	payment = calcAMonthsPayment(principle, rate, months);
+	payment = calcAMonthsPayment(principal, interest, months);
+
+	calcTheAmortizeSchedule(balance, interest, months, currentPeriod);
 
 	//Closing program statements
 	system("pause");
@@ -42,13 +47,21 @@ int main()
 //prompt user for input and validate input is correct
 void collectInputs(double& principle, double& rate, int& term)
 {
+
+
 	cout << "Inputs collected" << endl << endl;
 }
 
 //calculate monthly payment
-double calcAMonthsPayment(double principle, double rate, int months)
+double calcAMonthsPayment(double principle, double interest, int months)
 {
 	cout << "Months Payment Calculated" << endl << endl;
 
 	return 0.0;
+}
+
+//Directly recursive function to display 
+void calcTheAmortizeSchedule(double balance, double interest, int months, int currentPeriod)
+{
+
 }
