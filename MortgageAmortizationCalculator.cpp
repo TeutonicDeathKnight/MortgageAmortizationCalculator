@@ -1,9 +1,7 @@
 // MortgageAmortizationCalculator.cpp -- Calculate monthly payment for loans and display amortization schedule
 //CSIS 112-<D02_202440>
-//<Citations if necessary> -- citations are required
-//  for any references you used (outside of your book, 
-//  the website associated with your book, or references
-//  provided in class/Canvas).
+//Input validation logic derived from coding examples in assignment instructions
+//  Input validation logic on lines 61-72, 76-90, 94-105
 
 //Include statements
 #include <iostream>
@@ -17,8 +15,7 @@ using namespace std;
 //function prototypes
 void collectInputs(double& principal, double& rate, int& term);
 double calcAMonthsPayment(double principal, double interest, int months);
-void calcTheAmortizeSchedule(double balance, double interest, int months, int currentPeriod);
-
+void calcTheAmortizeSchedule(double balance, double payment, double interest, int months, int currentPeriod);
 void clearInputStream();
 
 int main()
@@ -40,7 +37,9 @@ int main()
 	cout << "Zachary Seeley -- Lab 1 - Recursion" << endl << endl
 		<< "Loan Application Information and Amortization Schedule" << endl << endl << endl;
 
-	calcTheAmortizeSchedule(balance, interest, months, currentPeriod);
+	calcTheAmortizeSchedule(balance, payment, interest, months, currentPeriod);
+
+	cout << endl;
 
 	//Closing program statements
 	system("pause");
@@ -104,31 +103,66 @@ void collectInputs(double& principal, double& rate, int& term)
 		clearInputStream();
 	}
 	
+	cout << endl;
 	system("pause");
 	system("cls");
 }
 
-//calculate monthly payment
+//calculate monthly payment using given equation
 double calcAMonthsPayment(double principal, double interest, int months)
 {
-	cout << endl << "monthly interest: " << interest << endl << endl;
 	double payment, innerCalc;
 
 	innerCalc = pow((1 + interest), months);
 
 	payment = principal * ((interest * innerCalc) / (innerCalc - 1));
 
-	cout << "Monthly payment: " << payment << endl << endl;
-
 	return payment;
 }
 
-//Directly recursive function to display 
-void calcTheAmortizeSchedule(double balance, double interest, int months, int currentPeriod)
+//Directly recursive function to calculate and display amortization schedule
+void calcTheAmortizeSchedule(double balance, double payment, double interest, int months, int currentPeriod)
 {
-	
+	double interestPayment, principalPayment;
 
-	cout << "Amortization Schedule Displayed" << endl << endl;
+	//If it is the first period, display the headers and starting balance
+	if (currentPeriod == 0)
+	{
+		cout << left << setw(45) << "Principle:" << balance << endl;
+		cout << left << setw(45) << "Life of loan:" << months / 12 << " years" << endl;
+		cout << left << setw(45) << "Annual interest rate:" << interest * 1200 << '%' << endl;
+		cout << fixed << setprecision(2) << left << setw(45) << "Monthly payment" << payment << endl << endl;
+
+		cout << right << setw(10) << "Payment" << setw(10) << "Amount"
+			<< setw(10) << "Interest" << setw(11) << "Principle" << setw(12) << "Balance" << endl
+			<< setw(53) << balance << endl;
+	}
+	
+	//increment period to current period
+	currentPeriod++;
+
+	//calculate interest and principle payments
+	interestPayment = round(balance * interest * 100) / 100;
+	principalPayment = payment - interestPayment;
+
+	//If principle payment is greater than the default principle payment
+	//make the principle payment the balance and add balance and interest payment to determine total payment
+	if (principalPayment > balance)
+	{
+		principalPayment = balance;
+		payment = principalPayment + interestPayment;
+	}
+
+	//determine balance output value
+	balance = balance - principalPayment;
+
+	//output details about period
+	cout << setw(10) << currentPeriod << setw(10) << payment << setw(10) << interestPayment
+		<< setw(11) << principalPayment << setw(12) << balance << endl;
+
+	//if current peiod is not the final period, call self function to calculate and display next line
+	if (currentPeriod != months)
+		calcTheAmortizeSchedule(balance, payment, interest, months, currentPeriod);
 }
 
 //Clear input stream
