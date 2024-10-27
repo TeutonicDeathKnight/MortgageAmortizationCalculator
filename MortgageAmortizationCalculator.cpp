@@ -15,13 +15,16 @@
 using namespace std;
 
 //function prototypes
-void collectInputs(double& principle, double& rate, int& term);
-double calcAMonthsPayment(double principle, double interest, int months);
+void collectInputs(double& principal, double& rate, int& term);
+double calcAMonthsPayment(double principal, double interest, int months);
 void calcTheAmortizeSchedule(double balance, double interest, int months, int currentPeriod);
+
+void clearInputStream();
+//bool validPrincipal(double _value);
 
 int main()
 {
-	cout << "Zachary Seeley -- Lab 1 - Functions and Recursion Program Assignment" << endl << endl;
+	cout << "Zachary Seeley -- Lab 1 - Recursion" << endl << endl;
 
 	//variable declarations
 	double principal, rate, payment, balance, interest;
@@ -45,15 +48,43 @@ int main()
 //function definitions
 
 //prompt user for input and validate input is correct
-void collectInputs(double& principle, double& rate, int& term)
+void collectInputs(double& principal, double& rate, int& term)
 {
+	bool validPrincipal = false;
 
+	cout << "Loan Application Information and Amortization Schedule" << endl << endl << endl;
+
+	// prompt user for valid principal
+	// reprompt user for valid principal if invalid input
+	while (validPrincipal != true)
+	{
+		cout << left << setw(45) << "Principal (between 100000 & 250000):";
+		cin >> principal;
+
+		if (cin.fail())
+		{
+			cout << endl << endl << "ERROR: Please enter a valid numeric value between 100000 and 250000." << endl << endl;
+		}
+		else if (principal < 100000 || principal > 250000)
+		{
+			cout << endl << endl << "ERROR: Please enter a single whole number between 100000 and 250000." << endl << endl;
+		}
+		else
+		{
+			cout << endl;
+			validPrincipal = true;
+		}
+
+		clearInputStream();
+	}
+
+	
 
 	cout << "Inputs collected" << endl << endl;
 }
 
 //calculate monthly payment
-double calcAMonthsPayment(double principle, double interest, int months)
+double calcAMonthsPayment(double principal, double interest, int months)
 {
 	cout << "Months Payment Calculated" << endl << endl;
 
@@ -65,3 +96,17 @@ void calcTheAmortizeSchedule(double balance, double interest, int months, int cu
 {
 
 }
+
+//Clear input stream
+void clearInputStream()
+{
+	//clear 
+	cin.clear();
+	//ignore rest of line determining max length of line until the newline character appears
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+//bool validPrincipal(double _value)
+//{
+//
+//}
